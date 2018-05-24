@@ -91,7 +91,7 @@ int self_buff_meat_effects(int target)
 		repeat
 		{
 			print(mp_cost(self_buff[int_index]) + " mp to cast " + self_buff[int_index], "blue");
-			int total_casts = ceil((target - have_effect(to_effect(self_buff[int_index])))/turns_per_cast(self_buff[int_index]));
+			int total_casts = ceil((target - have_effect(to_effect(self_buff[int_index])))/to_float(turns_per_cast(self_buff[int_index])));
 			print("It will take " + total_casts + " casts to get " + self_buff[int_index] + " above " + target, "blue");
 			int mp_for_totcasts = total_casts * mp_cost(self_buff[int_index]);
 			print("It will take " + mp_for_totcasts + " total mp to achieve that", "blue");
