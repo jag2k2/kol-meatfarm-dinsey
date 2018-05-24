@@ -77,16 +77,11 @@ int meatFarm_buffy_buffs()
 }
 
 /*Cast self effects*/
-int self_buff_meat_effects(int duration)
+int self_buff_meat_effects(int target)
 {
-	//Leash of Linguini 12MP for 10 turns
-	//Disco Leer 10MP for 10 turns
-	//Singer's Faithful Ocelot 15MP for 10 turns
-	//rest_in_chateau();
-	
 	outfit("min mp cost");
-	skill [int]self_buff;
 	
+	skill [int]self_buff;
 	self_buff[1] = $skill[Leash of Linguini];
 	self_buff[2] = $skill[Disco Leer];
 	self_buff[3] = $skill[Singer's Faithful Ocelot];
@@ -96,8 +91,8 @@ int self_buff_meat_effects(int duration)
 		repeat
 		{
 			print(mp_cost(self_buff[int_index]) + " mp to cast " + self_buff[int_index], "blue");
-			int total_casts = ceil((duration - have_effect(to_effect(self_buff[int_index])))/turns_per_cast(self_buff[int_index]));
-			print("It will take " + total_casts + " casts to get " + self_buff[int_index] + " above " + duration, "blue");
+			int total_casts = ceil((target - have_effect(to_effect(self_buff[int_index])))/turns_per_cast(self_buff[int_index]));
+			print("It will take " + total_casts + " casts to get " + self_buff[int_index] + " above " + target, "blue");
 			int mp_for_totcasts = total_casts * mp_cost(self_buff[int_index]);
 			print("It will take " + mp_for_totcasts + " total mp to achieve that", "blue");
 			int casts_afford = my_mp()/mp_cost(self_buff[int_index]);
@@ -108,17 +103,33 @@ int self_buff_meat_effects(int duration)
 			else if (casts_afford <= 0) 
 				minor_mp_restore();
 			else
-				//print("Want to cast " + min(casts_afford, total_casts) + " times", "blue");
 				use_skill(min(casts_afford, total_casts), self_buff[int_index]);
-		}until(have_effect(to_effect(self_buff[int_index])) >= duration);
+		}until(have_effect(to_effect(self_buff[int_index])) >= target);
 	}
 	
 	return 0;
 }
 
 /*Use base potions for meat farming*/
-int meatFarm_base_potions()
+int meatFarm_base_potions(int target)
 {		
+	record item_deets
+	{
+		item name;
+		int duration;
+	};
+	
+	item_deets [int]base_potion;
+	base_potion[1].name = $item[Knob Goblin pet-buffing spray];
+	base_potion[1].duration = 10;
+	base_potion[2].name = $item[Knob Goblin nasal spray];
+	base_potion[2].duration = 10;
+	base_potion[3].name = $item[Flaskfull of Hollow];
+	base_potion[3].duration = 150;
+	base_potion[4].name = $item[How to Avoid Scams];
+	base_potion[4].duration = 20;
+	
+	
 	if(have_effect($effect[On the Trail]) != 0)
 	{
 		if(get_property("olfactedMonster")=="garbage tourist")
@@ -129,12 +140,18 @@ int meatFarm_base_potions()
 	else
 		print("On the Trail is not active", "blue");
 
-	if(have_effect($effect[Merry Smithsness]) < 450)
+	foreach int_index in base_potion
 	{
-		int flasks_to_drink = 1+(450-have_effect($effect[Merry Smithsness]))/150;
-		use(flasks_to_drink, $item[Flaskfull of Hollow]);
+		if(have_effect(effect_modifier(base_potion[int_index].name, "effect")) < target)
+		{
+			int potions_to_take = ceil((target - have_effect(effect_modifier(base_potion[int_index].name, "effect")))/base_potion[int_index].duration);
+			retrieve_item(potions_to_take, base_potion[int_index].name);
+			use(potions_to_take, base_potion[int_index].name);
+		}
+		else
+		{
+			print(base_potion[int_index].name + " is already at target duration", "blue");
+		}
 	}
-	else
-		print("Merry Smithsness is already active", "blue");
 	return 0;
 }
