@@ -116,18 +116,18 @@ int meatFarm_base_potions(int target)
 	record item_deets
 	{
 		item name;
-		int duration;
+		float duration;
 	};
 	
 	item_deets [int]base_potion;
 	base_potion[1].name = $item[Knob Goblin pet-buffing spray];
-	base_potion[1].duration = 10;
+	base_potion[1].duration = 10.0;
 	base_potion[2].name = $item[Knob Goblin nasal spray];
-	base_potion[2].duration = 10;
+	base_potion[2].duration = 10.0;
 	base_potion[3].name = $item[Flaskfull of Hollow];
-	base_potion[3].duration = 150;
+	base_potion[3].duration = 150.0;
 	base_potion[4].name = $item[How to Avoid Scams];
-	base_potion[4].duration = 20;
+	base_potion[4].duration = 20.0;
 	
 	
 	if(have_effect($effect[On the Trail]) != 0)
