@@ -43,39 +43,6 @@ int meatFarm_create_copiers()
 	return 0;
 }
 
-/*Get buffs from buffy*/
-int meatFarm_buffy_buffs()
-{
-	string buffy_msg = "";
-	string sufficient_effects = "";
-	effect [int]buffy_effect;
-
-	if(have_effect($effect[Ode to Booze]) > 0)
-		cli_execute("uneffect ode to booze");
-	
-	buffy_effect[1] = $effect[Fat Leon's Phat Loot Lyric];
-	buffy_effect[2] = $effect[Polka of Plenty];
-	buffy_effect[3] = $effect[Empathy];
-	
-	foreach int_index in buffy_effect
-	{
-		if(have_effect(buffy_effect[int_index]) < 50000)
-			buffy_msg = buffy_msg + buffy_effect[int_index].to_string() + " ";
-		else
-			sufficient_effects = sufficient_effects + buffy_effect[int_index].to_string() + ", ";
-	}
-	
-	if(sufficient_effects != "")
-		print("Effects with enough turns: " + sufficient_effects, "blue");
-	
-	if(buffy_msg != "")
-	{
-		chat_private("buffy", buffy_msg);
-		wait(10);
-	}
-	return 0;
-}
-
 /*Cast self effects*/
 int self_buff_meat_effects(int target)
 {
