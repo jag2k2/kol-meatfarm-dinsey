@@ -107,6 +107,7 @@ int meatFarm_base_potions(int target)
 	else
 		print("On the Trail is not active", "blue");
 
+	equip($item[Travoltan trousers]);
 	foreach int_index in base_potion
 	{
 		if(have_effect(effect_modifier(base_potion[int_index].name, "effect")) < target)
