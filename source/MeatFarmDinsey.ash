@@ -123,3 +123,23 @@ int meatFarm_base_potions(int target)
 	}
 	return 0;
 }
+
+/*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
+void advBM_BuildGreenSpan()
+{
+	int max_ugbfg_price = 40000;
+	if(!property_exists("_UncleGreenspanUsed"))
+		set_property("_UncleGreenspanUsed", "false");
+
+	if(get_property("_UncleGreenspanUsed").to_boolean())
+		print("Uncle Greenspan Bathroom Finance Guide already used today", "blue");
+	else if (mall_price($item[Uncle Greenspan's Bathroom Finance Guide]) <= max_ugbfg_price)
+	{
+		retrieve_item(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
+		use(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
+		set_property("_UncleGreenspanUsed", "true");
+	}
+	
+	
+
+}
