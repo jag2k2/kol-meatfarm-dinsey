@@ -140,6 +140,6 @@ void advBM_BuildGreenSpan()
 		set_property("_UncleGreenspanUsed", "true");
 	}
 	
-	
+	adventure(95 , $location[Barf Mountain], "olfact_tourist");
 
 }
