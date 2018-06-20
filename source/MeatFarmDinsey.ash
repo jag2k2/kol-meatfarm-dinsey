@@ -125,13 +125,10 @@ int meatFarm_base_potions(int target)
 }
 
 /*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
-void advBM_BuildGreenSpan()
+void use_GreenSpan()
 {
 	int max_ugbfg_price = 40000;
-	if(!property_exists("_UncleGreenspanUsed"))
-		set_property("_UncleGreenspanUsed", "false");
-
-	if(get_property("_UncleGreenspanUsed").to_boolean())
+	if(property_exists("_UncleGreenspanUsed"))
 		print("Uncle Greenspan Bathroom Finance Guide already used today", "blue");
 	else if (mall_price($item[Uncle Greenspan's Bathroom Finance Guide]) <= max_ugbfg_price)
 	{
@@ -139,7 +136,96 @@ void advBM_BuildGreenSpan()
 		use(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
 		set_property("_UncleGreenspanUsed", "true");
 	}
-	
-	adventure(95 , $location[Barf Mountain], "olfact_tourist");
+}
 
+/*Get once per day meat buffs*/
+void once_daily_meatBuffs()
+{
+	/* Witchess Buff */
+	if(get_property("_witchessBuff").to_boolean())
+		print("Already received Witchess buff today", "blue");
+	else
+		cli_execute("Witchess");
+		
+	/* Fortune Teller Buff */
+	if(get_property("_clanFortuneBuffUsed").to_boolean())
+		print("Already received Fortune Teller buff today", "blue");
+	else
+		cli_execute("fortune buff meat");
+		
+	/* Tunnel of L.O.V.E. buff */
+	if(get_property("_loveTunnelUsed").to_boolean())
+		print("Already visited Tunnel of L.O.V.E. today", "blue");
+	else
+	{
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_tunnel");
+		run_choice(1);		// Enter the tunnel
+		run_choice(2);		// Sneak around the Enforcer
+		run_choice(3);		// Take the earrings
+		run_choice(2);		// Sneak around the Engineer
+		run_choice(2);		// Buff Open Heart Surgery
+		run_choice(2);		// Sneak around the 
+		
+		if(item_amount($Item[LOV Enamorang]) > 0)
+			run_choice(3);	// Get LOV Extraterrestrial Chocolate
+		else
+			run_choice(1);	// Get LOV Enamorang
+	}
+	
+	/* Mysterious Island Arena Buff */
+	if(get_property("sidequestArenaCompleted") != "fratboy")
+		print("Cannot get a meat buff from the Mysterious Island Arena", "blue");
+	else if(property_exists("_concertDone"))
+		print("Already received today's concert buff from the Mysterious Island Arena", "blue");
+	else
+	{
+		cli_execute("concert winklered");
+		set_property("_concertDone", "true");
+	}
+		
+	/* Defective Game Grid Token Buff */
+	if(get_property("_defectiveTokenUsed").to_boolean())
+		print("Already used the Defective Token today", "blue");
+	else
+		use(1, $item[Defective Game Grid Token]);
+	
+	/* Mad Hatter Buff */
+	if(property_exists("_hatterBuff"))
+		print("Already received today's mad hatter buff", "blue");
+	else
+	{
+		cli_execute("hatter filthy knitted dread sack");
+		set_property("_hatterBuff", "true");
+	}
+	
+	/* Clan Pool Table Buff */
+	if(get_property("_poolGames").to_int() >= 3)
+		print("Already played in the clan pool table 3 times today", "blue");
+	else
+	{
+		int max_pool_plays = 3;
+		int to_play = max_pool_plays - get_property("_poolGames").to_int();
+		for x from 1 to to_play
+			cli_execute("pool Billiards Belligerence");
+	}
+	
+	/* Clan Juke Box Buff */
+	if(get_property("_jukebox").to_boolean())
+		print("Already listened to clan jukebox today", "blue");
+	else
+		cli_execute("jukebox Material Witness");
+	
+	/* Bind Lasagmbie Buff */
+	if(have_effect($effect[Pasta Eyeball]) > 0)
+		print("Already have Pasta Eyeball effect", "blue");
+	else if(my_thrall() == $thrall[Lasagmbie])
+		print("Current thrall is already Lasagmbie", "blue");
+	else
+		use_skill(1, $skill[Bind Lasagmbie]);
+		
+	/* Summon Greed Demon
+	if(get_property("demonSummoned").to_boolean())
+		print("Already summoned demon today", "blue");
+	else
+		cli_execute("summon Riptar Zielgam"); */
 }
