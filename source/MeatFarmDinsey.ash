@@ -52,6 +52,7 @@ int self_buff_meat_effects(int target)
 	self_buff[1] = $skill[Leash of Linguini];
 	self_buff[2] = $skill[Disco Leer];
 	self_buff[3] = $skill[Singer's Faithful Ocelot];
+	self_buff[4] = $skill[Fat Leon's Phat Loot Lyric];
 	
 	foreach int_index in self_buff
 	{
