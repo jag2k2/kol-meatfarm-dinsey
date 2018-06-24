@@ -1,18 +1,16 @@
 /*Prep outfit and familiar for meat farming*/
-int meatFarm_fam_equip()
+void meatFarm_fam_equip()
 {
 	outfit("meat farm");
 	use_familiar($familiar[robortender]);
 	
-	if(familiar_equipment(my_familiar()) != $item[lucky Tam O'Shanter])
-		equip($slot[familiar], $item[lucky Tam O'Shanter]);
+	if(familiar_equipment(my_familiar()) != $item[amulet coin])
+		equip($slot[familiar], $item[amulet coin]);
 	
 	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
 		print("Robortender already has meat farming mummery costume", "blue");
 	else
-	{
 		cli_execute("mummery meat");
-	}
 	
 	if(get_property("_roboDrinks").contains_text("drive-by shooting"))
 		print("Robortender already boozed up for meat farming", "blue");
@@ -21,7 +19,6 @@ int meatFarm_fam_equip()
 		retrieve_item(1, $item[drive-by shooting]);
 		cli_execute("robo drive-by shooting");
 	}
-	return 0;
 }
 
 /*Create copiers if needed*/
@@ -240,7 +237,9 @@ void farm_emezzler_copies()
 		print("Already used photocopied monster today", "blue");
 	else
 	{
-		use_familiar($familiar[Reanimated Reanimator]);						
+		use_familiar($familiar[Reanimated Reanimator]);
+		if(familiar_equipment(my_familiar()) != $item[lucky Tam O'Shanter])
+			equip($slot[familiar], $item[lucky Tam O'Shanter]);		
 		use(1, $item[photocopied monster]);									//	Consult script will use the "Wink" skill
 		use_familiar($familiar[robortender]);								//  Go back to robortender
 	}
