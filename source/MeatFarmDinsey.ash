@@ -25,22 +25,21 @@ int meatFarm_fam_equip()
 }
 
 /*Create copiers if needed*/
-int meatFarm_create_copiers()
+void meatFarm_create_copiers()
 {
+	if(get_property("chateauMonster")!="Knob Goblin Embezzler")				// If chateau monster is not an embezzler make sure you have a watercolor set in inventory
+		if(item_amount($item[alpine watercolor set]) == 0)
+			buy(1, $item[alpine watercolor set]);
+	
 	if(item_amount($item[4-d camera]) > 0)
 		print("Already have one 4-d camera", "blue");
 	else
-	{
 		retrieve_item(1, $item[4-d camera]);
-	}
 	
 	if(item_amount($item[unfinished ice sculpture]) > 0)
 		print("Already have one unfinished ice sculpture", "blue");
 	else
-	{
 		retrieve_item(1, $item[unfinished ice sculpture]);
-	}
-	return 0;
 }
 
 /*Cast self effects*/
@@ -53,6 +52,9 @@ int self_buff_meat_effects(int target)
 	self_buff[2] = $skill[Disco Leer];
 	self_buff[3] = $skill[Singer's Faithful Ocelot];
 	self_buff[4] = $skill[Fat Leon's Phat Loot Lyric];
+	
+	if(have_effect($effect[Ode to Booze]) > 0)
+		cli_execute("uneffect Ode to Booze");
 	
 	foreach int_index in self_buff
 	{
@@ -229,4 +231,39 @@ void once_daily_meatBuffs()
 		print("Already summoned demon today", "blue");
 	else
 		cli_execute("summon Riptar Zielgam"); */
+}
+
+/* Farm Embezzlers using all available copies */
+void farm_emezzler_copies()
+{
+	if(get_property("_photocopyUsed").to_boolean())							// Fight the faxed monster using a Reanimator Wink
+		print("Already used photocopied monster today", "blue");
+	else
+	{
+		use_familiar($familiar[Reanimated Reanimator]);						
+		use(1, $item[photocopied monster]);									//	Consult script will use the "Wink" skill
+		use_familiar($familiar[robortender]);								//  Go back to robortender
+	}
+	
+	if(get_property("_chateauMonsterFought").to_boolean())					// Fight the embezzler in the chateau painting
+		print("Already fought the Chateau monster today", "blue");
+	else if(get_property("chateauMonster")!="Knob Goblin Embezzler")
+		print("Knob Goblin Embezzler was not copied into the Chateau painting", "blue");
+	else
+	{
+		visit_url("place.php?whichplace=chateau&action=chateau_painting");
+		run_combat();
+	}
+	
+	if(item_amount($item[Rain-Doh box full of monster])==0)					// Fight 5 embezzlers using Rain-Doh copies
+		print("Rain-Doh box full of monster not available", "blue");
+	else
+		for x from 0 to (5 - get_property("_raindohCopiesMade").to_int())	// At least 1 copy has been made at this point
+			use(1, $item[Rain-Doh box full of monster]);
+				
+	if(item_amount($item[Spooky Putty monster])==0)							// Fight 1 embezzler using Spooky putty
+		print("Spooky Putty monster not available", "blue");
+	else
+		use(1, $item[Spooky Putty monster]);
+
 }
