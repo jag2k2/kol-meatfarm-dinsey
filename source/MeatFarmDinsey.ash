@@ -254,16 +254,15 @@ void farm_emezzler_copies()
 		visit_url("place.php?whichplace=chateau&action=chateau_painting");
 		run_combat();
 	}
+
+	if(item_amount($item[Spooky Putty monster])==0)							// Fight 1 embezzler using Spooky putty
+		print("Spooky Putty monster not available", "blue");					
+	else
+		use(1, $item[Spooky Putty monster]);
 	
 	if(item_amount($item[Rain-Doh box full of monster])==0)					// Fight 5 embezzlers using Rain-Doh copies
 		print("Rain-Doh box full of monster not available", "blue");
 	else
 		for x from 0 to (5 - get_property("_raindohCopiesMade").to_int())	// At least 1 copy has been made at this point
 			use(1, $item[Rain-Doh box full of monster]);
-				
-	if(item_amount($item[Spooky Putty monster])==0)							// Fight 1 embezzler using Spooky putty
-		print("Spooky Putty monster not available", "blue");
-	else
-		use(1, $item[Spooky Putty monster]);
-
 }
