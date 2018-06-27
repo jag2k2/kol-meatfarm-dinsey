@@ -284,7 +284,7 @@ void farm_emezzler_copies()
 	else
 		use(1, $item[shaking 4-d camera]);
 		
-	if(item_amount($[ice sculpture])==0)									// Fight 1 embezzler using Ice sculpture
+	if(item_amount($item[ice sculpture])==0)								// Fight 1 embezzler using Ice sculpture
 		print("Ice sculpture not available", "blue");
 	else
 		use(1, $item[ice sculpture]);
