@@ -278,4 +278,14 @@ void farm_emezzler_copies()
 	else
 		for x from 0 to (5 - get_property("_raindohCopiesMade").to_int())	// At least 1 copy has been made at this point
 			use(1, $item[Rain-Doh box full of monster]);
+			
+	if(item_amount($item[shaking 4-d camera])==0)							// Fight 1 embezzler using 4-d camera
+		print("Shaking 4-d camera not available", "blue");
+	else
+		use(1, $item[shaking 4-d camera]);
+		
+	if(item_amount($[ice sculpture])==0)									// Fight 1 embezzler using Ice sculpture
+		print("Ice sculpture not available", "blue");
+	else
+		use(1, $item[ice sculpture]);
 }
