@@ -24,11 +24,6 @@ void meatFarm_fam_equip()
 /* Modifies default meat farming outfit for embezzler farming */
 void meatFarm_outfit_embezzlerMod()
 {
-	if(item_amount($item[Snow Suit])==0)
-		print("Cannot find Snow Suit", "blue");
-	else
-		equip($slot[familiar], $item[Snow Suit]);
-	
 	if(item_amount($item[LOV Earrings])==0)
 		print("Cannot find LOV Earrings", "blue");
 	else
