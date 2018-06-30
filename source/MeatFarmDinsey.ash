@@ -231,7 +231,24 @@ void once_daily_meatBuffs()
 		print("Current thrall is already Lasagmbie", "blue");
 	else
 		use_skill(1, $skill[Bind Lasagmbie]);
-		
+	
+	/* Have a ChibiChat */
+	if(item_amount($item[ChibiBuddy&trade; (on)])>0);
+	{
+		string chibi_page = visit_url("inv_use.php?pwd=&whichitem=5908");
+		int chat_index = chibi_page.index_of("value=\"Have a ChibiChat")-35;
+		int leave_index = chibi_page.index_of("value=\"Put your ChibiBuddy")-35;
+		if(chat_index > 0)
+			run_choice(chibi_page.char_at(chat_index).to_int());
+		else
+			run_choice(chibi_page.char_at(leave_index).to_int());
+	}
+	if(item_amount($item[ChibiBuddy&trade; (off)])>0);
+	{
+		print("Need to activate ChibiBuddy", "blue");
+	}
+	
+	
 	/* Summon Greed Demon
 	if(get_property("demonSummoned").to_boolean())
 		print("Already summoned demon today", "blue");
