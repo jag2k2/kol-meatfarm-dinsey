@@ -243,7 +243,7 @@ void once_daily_meatBuffs()
 		else
 			run_choice(chibi_page.char_at(leave_index).to_int());
 	}
-	if(item_amount($item[ChibiBuddy&trade; (off)])>0);
+	if(item_amount($item[ChibiBuddy&trade; (off)])>0)
 	{
 		print("Need to activate ChibiBuddy", "blue");
 	}
