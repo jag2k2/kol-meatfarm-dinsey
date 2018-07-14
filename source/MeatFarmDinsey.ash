@@ -231,7 +231,10 @@ void once_daily_meatBuffs()
 		print("Current thrall is already Lasagmbie", "blue");
 	else
 		use_skill(1, $skill[Bind Lasagmbie]);
-		
+	
+	/* Have a ChibiChat */
+	use_ChibiChat();
+	
 	/* Summon Greed Demon
 	if(get_property("demonSummoned").to_boolean())
 		print("Already summoned demon today", "blue");
@@ -284,3 +287,5 @@ void farm_emezzler_copies()
 	else
 		use(1, $item[ice sculpture]);
 }
+
+
