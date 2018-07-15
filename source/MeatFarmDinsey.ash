@@ -54,7 +54,7 @@ void meatFarm_create_copiers()
 }
 
 /*Cast self effects*/
-int self_buff_meat_effects(int target)
+void self_buff_meat_effects(int target)
 {
 	outfit("min mp cost");
 	
@@ -71,28 +71,26 @@ int self_buff_meat_effects(int target)
 	{
 		repeat
 		{
-			print(mp_cost(self_buff[int_index]) + " mp to cast " + self_buff[int_index], "blue");
 			int total_casts = ceil((target - have_effect(to_effect(self_buff[int_index])))/to_float(turns_per_cast(self_buff[int_index])));
-			print("It will take " + total_casts + " casts to get " + self_buff[int_index] + " above " + target, "blue");
 			int mp_for_totcasts = total_casts * mp_cost(self_buff[int_index]);
-			print("It will take " + mp_for_totcasts + " total mp to achieve that", "blue");
 			int casts_afford = my_mp()/mp_cost(self_buff[int_index]);
-			print("I can afford " + casts_afford + " casts", "blue");
 			
 			if(total_casts <= 0)
 				print(self_buff[int_index] + " is at target duration", "blue");
-			else if (casts_afford <= 0) 
-				minor_mp_restore();
 			else
-				use_skill(min(casts_afford, total_casts), self_buff[int_index]);
+			{
+				print(self_buff[int_index] + ": Target " + target + " adv. Cost: " + total_casts + " casts (" + mp_cost(self_buff[int_index]) + "mp) for a total of " + mp_for_totcasts + " mp. I can afford " + casts_afford + " casts.", "blue");
+				if (casts_afford <= 0) 
+					minor_mp_restore();
+				else
+					use_skill(min(casts_afford, total_casts), self_buff[int_index]);
+			}
 		}until(have_effect(to_effect(self_buff[int_index])) >= target);
 	}
-	
-	return 0;
 }
 
 /*Use base potions for meat farming*/
-int meatFarm_base_potions(int target)
+void meatFarm_base_potions(int target)
 {		
 	record item_deets
 	{
@@ -110,32 +108,19 @@ int meatFarm_base_potions(int target)
 	base_potion[4].name = $item[How to Avoid Scams];
 	base_potion[4].duration = 20.0;
 	
-	
-	if(have_effect($effect[On the Trail]) != 0)
-	{
-		if(get_property("olfactedMonster")=="garbage tourist")
-			print("Olfacted Monster is already garbage tourist", "blue");
-		else
-			cli_execute("uneffect On the Trail");
-	}
-	else
-		print("On the Trail is not active", "blue");
-
 	equip($item[Travoltan trousers]);
 	foreach int_index in base_potion
 	{
-		if(have_effect(effect_modifier(base_potion[int_index].name, "effect")) < target)
+		if(have_effect(effect_modifier(base_potion[int_index].name, "effect")) >= target)
+			print(base_potion[int_index].name + " is already at target duration", "blue");
+		else
 		{
 			int potions_to_take = ceil((target - have_effect(effect_modifier(base_potion[int_index].name, "effect")))/base_potion[int_index].duration);
+			print(base_potion[int_index].name + ": Target " + target + " adv. Cost: " + potions_to_take + " potions needed.", "blue");
 			retrieve_item(potions_to_take, base_potion[int_index].name);
 			use(potions_to_take, base_potion[int_index].name);
 		}
-		else
-		{
-			print(base_potion[int_index].name + " is already at target duration", "blue");
-		}
 	}
-	return 0;
 }
 
 /*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
