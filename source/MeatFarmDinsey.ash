@@ -37,6 +37,11 @@ void meatFarm_create_copiers()
 		if(item_amount($item[alpine watercolor set]) == 0)
 			buy(1, $item[alpine watercolor set]);
 	
+	if(item_amount($item[can of Rain-Doh]) > 0)
+		use(1, $item[can of Rain-Doh]);
+	else
+		print("Already opened can of Rain-Doh", "blue");
+	
 	if(item_amount($item[4-d camera]) > 0)
 		print("Already have one 4-d camera", "blue");
 	else
