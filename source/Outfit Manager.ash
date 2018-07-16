@@ -1,11 +1,16 @@
 /* Manage outfits based on class and level */
 void outfit_manager(string attire)
 {
-	item best_equip(item [int] poss_equips)
+	item best_equip(item [int] equip_list)
 	{
-		foreach key in poss_equips
-			if(can_equip(poss_equips[key]))
-				return poss_equips[key];
+		foreach key in equip_list
+			if(can_equip(equip_list[key]))
+			{
+				if(item_amount(equip_list[key]) == 0 && equipped_amount(equip_list[key]) == 0)
+					print("Do not have " + equip_list[key], "red");
+				else
+					return equip_list[key];
+			}
 		return $item[none];
 	}
 	
@@ -19,11 +24,6 @@ void outfit_manager(string attire)
 		if(to_equip == equipped_item(to_slot))
 		{
 			print(to_equip + " is already equipped", "blue");
-			return;
-		}
-		if(item_amount(to_equip) == 0 && equipped_amount(to_equip) == 0)
-		{
-			print("Do not have " + to_equip, "red");
 			return;
 		}
 		if(item_amount(to_equip) == 0 && equipped_amount(to_equip) > 0)
@@ -121,13 +121,9 @@ void outfit_manager(string attire)
 			hat_list[0] = $item[crumpled felt fedora];
 			hat_list[1] = $item[papier-mitre];	
 			
-			back_list[0] = $item[Buddy Bjorn];
-			if(item_amount($item[carpe]) > 0 || have_equipped($item[carpe]))		// If you have a carpe then insert it to position 0
-			{
-				back_list[1] = back_list[0];
-				back_list[0] = $item[carpe];
-			}
-			
+			back_list[0] = $item[carpe];
+			back_list[1] = $item[Buddy Bjorn];
+
 			to_bjorn = $familiar[Golden Monkey];
 			
 			shirt_list[0] = $item[origami pasties];
@@ -156,12 +152,8 @@ void outfit_manager(string attire)
 			hat_list[0] = $item[intimidating coiffure];
 			hat_list[1] = $item[The Crown of Ed the Undying];
 				
-			back_list[0] = $item[Cloak of Dire Shadows];
-			if(item_amount($item[carpe]) > 0 || have_equipped($item[carpe]))		// If you have a carpe then insert it to position 0
-			{
-				back_list[1] = back_list[0];
-				back_list[0] = $item[carpe];
-			}
+			back_list[0] = $item[carpe];
+			back_list[1] = $item[Cloak of Dire Shadows];
 			
 			shirt_list[0] = $item[sea salt scrubs];
 			shirt_list[1] = $item[white hat hacker T-shirt];
@@ -184,12 +176,8 @@ void outfit_manager(string attire)
 			hat_list[0] = $item[intimidating coiffure];
 			hat_list[1] = $item[The Crown of Ed the Undying];
 				
-			back_list[0] = $item[Cloak of Dire Shadows];
-			if(item_amount($item[carpe]) > 0 || have_equipped($item[carpe]))		// If you have a carpe then insert it to position 0
-			{
-				back_list[1] = back_list[0];
-				back_list[0] = $item[carpe];
-			}
+			back_list[0] = $item[carpe];
+			back_list[1] = $item[Cloak of Dire Shadows];
 
 			shirt_list[0] = $item[sea salt scrubs];
 			shirt_list[1] = $item[white hat hacker T-shirt];
