@@ -63,8 +63,6 @@ void meatFarm_create_copiers()
 /*Cast self effects*/
 void self_buff_meat_effects(int target)
 {
-	outfit("min mp cost");
-	
 	skill [int]self_buff;
 	self_buff[1] = $skill[Leash of Linguini];
 	self_buff[2] = $skill[Disco Leer];
@@ -115,6 +113,7 @@ void meatFarm_base_potions(int target)
 	base_potion[4].name = $item[How to Avoid Scams];
 	base_potion[4].duration = 20.0;
 	
+	item old_pants = equipped_item($slot[pants]);
 	equip($item[Travoltan trousers]);
 	foreach int_index in base_potion
 	{
@@ -128,6 +127,7 @@ void meatFarm_base_potions(int target)
 			use(potions_to_take, base_potion[int_index].name);
 		}
 	}
+	equip($slot[pants], old_pants);
 }
 
 /*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
