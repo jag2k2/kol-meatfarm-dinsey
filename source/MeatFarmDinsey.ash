@@ -8,20 +8,32 @@ void check_OnTheTrail()
 		cli_execute("uneffect On the Trail");		
 }
 
-void prime_robortender()
+void dress_robortender()
 {
 	use_familiar($familiar[robortender]);
 	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
 		print("Robortender already has meat farming mummery costume", "blue");
 	else
 		cli_execute("mummery meat");
-	
+}
+
+void booze_robortender()
+{	
 	if(get_property("_roboDrinks").contains_text("drive-by shooting"))
-		print("Robortender already boozed up for meat farming", "blue");
+		print("Robortender already boozed up with drive-by shooting", "blue");
 	else
 	{
 		retrieve_item(1, $item[drive-by shooting]);
 		cli_execute("robo drive-by shooting");
+	}
+	
+	if(get_property("_roboDrinks").contains_text("single entendre"))
+		print("Robortender already boozed up with single entendre", "blue");
+	else
+	{
+		if(item_amount($item[single entendre]) == 0)
+			cli_execute("mallbuy single entendre @ 20000");
+		cli_execute("robo single entendre");
 	}
 }
 
