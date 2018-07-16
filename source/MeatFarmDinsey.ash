@@ -1,33 +1,40 @@
-/*Prep outfit and familiar for meat farming*/
-void meatFarm_fam_equip()
+void check_OnTheTrail()
 {
-	outfit("meat farm");
+	if(have_effect($effect[On the Trail]) == 0)
+		print("On the Trail is not active", "blue");
+	else if(get_property("olfactedMonster")=="garbage tourist")
+		print("Olfacted Monster is garbage tourist. Leave it.", "blue");
+	else
+		cli_execute("uneffect On the Trail");		
+}
+
+void dress_robortender()
+{
 	use_familiar($familiar[robortender]);
-	
-	if(familiar_equipment(my_familiar()) != $item[amulet coin])
-		equip($slot[familiar], $item[amulet coin]);
-	
 	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
 		print("Robortender already has meat farming mummery costume", "blue");
 	else
 		cli_execute("mummery meat");
-	
+}
+
+void booze_robortender()
+{	
 	if(get_property("_roboDrinks").contains_text("drive-by shooting"))
-		print("Robortender already boozed up for meat farming", "blue");
+		print("Robortender already boozed up with drive-by shooting", "blue");
 	else
 	{
 		retrieve_item(1, $item[drive-by shooting]);
 		cli_execute("robo drive-by shooting");
 	}
-}
-
-/* Modifies default meat farming outfit for embezzler farming */
-void meatFarm_outfit_embezzlerMod()
-{
-	if(item_amount($item[LOV Earrings])==0)
-		print("Cannot find LOV Earrings", "blue");
+	
+	if(get_property("_roboDrinks").contains_text("single entendre"))
+		print("Robortender already boozed up with single entendre", "blue");
 	else
-		equip($slot[acc2], $item[LOV Earrings]);
+	{
+		if(item_amount($item[single entendre]) == 0)
+			cli_execute("mallbuy single entendre @ 20000");
+		cli_execute("robo single entendre");
+	}
 }
 
 /*Create copiers if needed*/
@@ -56,8 +63,6 @@ void meatFarm_create_copiers()
 /*Cast self effects*/
 void self_buff_meat_effects(int target)
 {
-	outfit("min mp cost");
-	
 	skill [int]self_buff;
 	self_buff[1] = $skill[Leash of Linguini];
 	self_buff[2] = $skill[Disco Leer];
@@ -108,6 +113,7 @@ void meatFarm_base_potions(int target)
 	base_potion[4].name = $item[How to Avoid Scams];
 	base_potion[4].duration = 20.0;
 	
+	item old_pants = equipped_item($slot[pants]);
 	equip($item[Travoltan trousers]);
 	foreach int_index in base_potion
 	{
@@ -121,6 +127,7 @@ void meatFarm_base_potions(int target)
 			use(potions_to_take, base_potion[int_index].name);
 		}
 	}
+	equip($slot[pants], old_pants);
 }
 
 /*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
