@@ -1,10 +1,28 @@
-/* Modifies default meat farming outfit for embezzler farming */
-void meatFarm_outfit_embezzlerMod()
+void check_OnTheTrail()
 {
-	if(item_amount($item[LOV Earrings])==0)
-		print("Cannot find LOV Earrings", "blue");
+	if(have_effect($effect[On the Trail]) == 0)
+		print("On the Trail is not active", "blue");
+	else if(get_property("olfactedMonster")=="garbage tourist")
+		print("Olfacted Monster is garbage tourist. Leave it.", "blue");
 	else
-		equip($slot[acc2], $item[LOV Earrings]);
+		cli_execute("uneffect On the Trail");		
+}
+
+void prime_robortender()
+{
+	use_familiar($familiar[robortender]);
+	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
+		print("Robortender already has meat farming mummery costume", "blue");
+	else
+		cli_execute("mummery meat");
+	
+	if(get_property("_roboDrinks").contains_text("drive-by shooting"))
+		print("Robortender already boozed up for meat farming", "blue");
+	else
+	{
+		retrieve_item(1, $item[drive-by shooting]);
+		cli_execute("robo drive-by shooting");
+	}
 }
 
 /*Create copiers if needed*/
