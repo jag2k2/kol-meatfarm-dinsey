@@ -1,26 +1,3 @@
-/*Prep outfit and familiar for meat farming*/
-void meatFarm_fam_equip()
-{
-	outfit("meat farm");
-	use_familiar($familiar[robortender]);
-	
-	if(familiar_equipment(my_familiar()) != $item[amulet coin])
-		equip($slot[familiar], $item[amulet coin]);
-	
-	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
-		print("Robortender already has meat farming mummery costume", "blue");
-	else
-		cli_execute("mummery meat");
-	
-	if(get_property("_roboDrinks").contains_text("drive-by shooting"))
-		print("Robortender already boozed up for meat farming", "blue");
-	else
-	{
-		retrieve_item(1, $item[drive-by shooting]);
-		cli_execute("robo drive-by shooting");
-	}
-}
-
 /* Modifies default meat farming outfit for embezzler farming */
 void meatFarm_outfit_embezzlerMod()
 {
