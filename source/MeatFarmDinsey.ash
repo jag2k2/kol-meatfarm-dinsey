@@ -245,13 +245,7 @@ void farm_emezzler_copies()
 	if(get_property("_photocopyUsed").to_boolean())							// Fight the faxed monster using a Reanimator Wink
 		print("Already used photocopied monster today", "blue");
 	else
-	{
-		use_familiar($familiar[Reanimated Reanimator]);
-		if(familiar_equipment(my_familiar()) != $item[lucky Tam O'Shanter])
-			equip($slot[familiar], $item[lucky Tam O'Shanter]);		
 		use(1, $item[photocopied monster]);									//	Consult script will use the "Wink" skill
-		use_familiar($familiar[robortender]);								//  Go back to robortender
-	}
 	
 	if(get_property("_chateauMonsterFought").to_boolean())					// Fight the embezzler in the chateau painting
 		print("Already fought the Chateau monster today", "blue");
