@@ -93,10 +93,12 @@ void outfit_manager(string attire)
 	{
 		case "BM Farm":
 			hat_list[0] = $item[crumpled felt fedora];
-			hat_list[1] = $item[papier-mitre];	
+			hat_list[1] = $item[wad of used tape];
+			hat_list[2] = $item[papier-mitre];	
 
 			back_list[0] = $item[Buddy Bjorn];
 			to_bjorn = $familiar[Golden Monkey];
+			
 			shirt_list[0] = $item[origami pasties];
 			
 			if(my_class() == $class[seal clubber])
@@ -110,16 +112,21 @@ void outfit_manager(string attire)
 			pants_list[1] = $item[Pantsgiving];
 			
 			acc1_list[0] = $item[mafia pointer finger ring];
+			
 			acc2_list[0] = $item[mafia thumb ring];	
+			
 			acc3_list[0] = $item[cheap sunglasses];
 				
 			to_fam = $familiar[robortender];
 			famEquip_list[0] = $item[amulet coin];
+			famEquip_list[1] = $item[lucky Tam O'Shanter];
+			
 			break;
 		
 		case "Embezzler Farm":
 			hat_list[0] = $item[crumpled felt fedora];
-			hat_list[1] = $item[papier-mitre];	
+			hat_list[1] = $item[wad of used tape];
+			hat_list[2] = $item[papier-mitre];	
 			
 			back_list[0] = $item[carpe];
 			back_list[1] = $item[Buddy Bjorn];
@@ -139,6 +146,7 @@ void outfit_manager(string attire)
 			pants_list[1] = $item[Pantsgiving];
 			
 			acc1_list[0] = $item[mafia pointer finger ring];
+			
 			acc2_list[0] = $item[LOV Earrings];
 			
 			acc3_list[0] = $item[Belt of Loathing];
@@ -146,11 +154,12 @@ void outfit_manager(string attire)
 			
 			to_fam = $familiar[robortender];
 			famEquip_list[0] = $item[amulet coin];
+			famEquip_list[1] = $item[lucky Tam O'Shanter];
 			break;
 			
 		case "Min MP Cost":
 			hat_list[0] = $item[intimidating coiffure];
-			hat_list[1] = $item[The Crown of Ed the Undying];
+			hat_list[1] = $item[jewel-eyed wizard hat];
 				
 			back_list[0] = $item[carpe];
 			back_list[1] = $item[Cloak of Dire Shadows];
@@ -163,8 +172,12 @@ void outfit_manager(string attire)
 			offhand_list[0] = $item[Wand of Oscus];
 				
 			pants_list[0] = $item[Oscus's dumpster waders];
+			
 			acc1_list[0] = $item[Oscus's pelt];
+			
 			acc2_list[0] = $item[Pocket Square of Loathing];
+			acc2_list[1] = $item[stainless steel solitaire];
+			
 			acc3_list[0] = $item[Garland of Greatness];
 			
 			to_fam = $familiar[Disembodied Hand];
@@ -189,7 +202,9 @@ void outfit_manager(string attire)
 			pants_list[0] = $item[Jeans of Loathing];
 				
 			acc1_list[0] = $item[Garland of Greatness];
+			
 			acc2_list[0] = $item[Talisman of Baio];
+			
 			acc3_list[0] = $item[navel ring of navel gazing];
 			
 			to_fam = $familiar[Disembodied Hand];
@@ -211,8 +226,11 @@ void outfit_manager(string attire)
 			weapon_list[2] = $item[Thor's Pliers];
 				
 			offhand_list[0] = $item[KoL Con 13 snowglobe];
+			
 			pants_list[0] = $item[Pantsgiving];
+			
 			acc1_list[0] = $item[Mr. Screege's spectacles];
+			
 			acc2_list[0] = $item[Mr. Cheeng's spectacles];
 					
 			if(item_amount($item[stinky cheese eye]) == 0 && equipped_amount($item[stinky cheese eye]) == 0)
@@ -229,8 +247,11 @@ void outfit_manager(string attire)
 			hat_list[0] = $item[leather aviator's cap];
 			
 			back_list[0] = $item[octolus-skin cloak];
+			
 			shirt_list[0] = $item[Sneaky Pete's leather jacket];
+			
 			weapon_list[0] = $item[The Nuge's favorite crossbow];
+			
 			offhand_list[0] = $item[blue LavaCo Lamp&trade;];
 			
 			pants_list[0] = $item[Pantaloons of Hatred];
