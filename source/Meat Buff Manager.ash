@@ -1,31 +1,8 @@
 /* Check profit margins on meat-buff potions */
 
-record buff_deets{
-	item name;
-	int buff_pct;
-	int duration;
-	int max_price;
-};
-
-record encounter_deets{
-	string encounter;
-	int base_mpa;
-};
-
-void print_buffs()
-{
-	buff_deets [int]potion_list;
-	file_to_map("/kol-meatfarm-dinsey/data/meatbuff_list.txt", potion_list);
-
-	foreach key in potion_list
-	{
-		print(potion_list[key].name + " " + potion_list[key].buff_pct + " " + potion_list[key].duration + " " + potion_list[key].max_price, "blue");
-		
-	}
-}
-
 int [int] build_encounterList()
 {
+	int embezzler_count = 0;
 	int max_rounds = 600;
 	int [int] encounter_list;
 	int boom_bonus = 0;
@@ -41,35 +18,53 @@ int [int] build_encounterList()
 	// Add initial embezzler copies
 	for x from 1 to 10
 		encounter_list[x] = embezzler_baseMPA;
-		
+	
+	
 	// Add embezzler from enamorang
-	encounter_list[15] = embezzler_baseMPA;
+	int dig_pointer = 15;
+	encounter_list[dig_pointer] = embezzler_baseMPA;
+	
+	// Add wandering embezzlers from the Reanimator Wink
+	for x from 1 to 3
+	{
+		dig_pointer += 20;
+		encounter_list[dig_pointer] = embezzler_baseMPA;
+	}
 	
 	// Add embezzlers from source terminal
 	int dig_gap = 7;
-	int dig_freq = 5;
+	int dig_interval = 5;
 	int dig_counter = 0;
 	int dig_cast = 1;
-	int dig_pointer = 10;
+	dig_pointer = 11;
 	
 	repeat
 	{
 		dig_pointer += dig_gap;
-		encounter_list[dig_pointer] = embezzler_baseMPA;
-		dig_counter++;
-		if(dig_counter >= dig_freq && dig_cast < 3)
+		if(dig_pointer < max_rounds)
 		{
-			dig_cast++;
-			dig_counter = 0;
-			dig_gap = 7;
+			encounter_list[dig_pointer] = embezzler_baseMPA;
+			dig_counter++;
+			if(dig_counter >= dig_interval && dig_cast < 3)
+			{
+				dig_cast++;
+				dig_counter = 0;
+				dig_gap = 7;
+			}
+			else if(dig_gap == 7)
+				dig_gap = 20;
+			else
+				dig_gap += 10;
 		}
-		else if(dig_gap == 7)
-			dig_gap = 20;
-		else
-			dig_gap += 10;
-		print(dig_pointer);
 	}until(dig_pointer > max_rounds);
 	
+	/*foreach key in encounter_list
+		if (encounter_list[key] > 500)
+		{
+			embezzler_count++;
+			print(key, "blue");
+		}
+	print("Number of Embezzlers: " + embezzler_count, "blue");*/
 	
 	return encounter_list;
 }
@@ -83,68 +78,46 @@ int total_base_meatDrop(int rounds)
 	return sum;		
 }
 
-/*	
-	encounter_deets [int]bm_embezzFarm_encList;
-	file_to_map("bm_enc_embezzler_farming.txt", bm_embezzFarm_encList);
+record buff_deets{
+	int buff_pct;
+	int duration;
+	int revenue;
+	int mall_price;
+	int max_price;
+};
 
-	for x from 1 to 60											// Start with 60 adventures of barf moutain enemies
+buff_deets [item] build_meatbuff_info()
+{
+	float potion_margin = 0.85;
+	buff_deets [item] potion_list;
+	file_to_map("/kol-meatfarm-dinsey/data/meat potions mall avail.txt", potion_list);
+	
+	foreach key in potion_list
 	{
-		bm_embezzFarm_encList[x].encounter = "bm enemy";
-		bm_embezzFarm_encList[x].meat_drop = 250;
+		potion_list[key].mall_price = mall_price(key);
+		potion_list[key].revenue = total_base_meatDrop(potion_list[key].duration) * potion_list[key].buff_pct / 100;
+		potion_list[key].max_price = to_int(potion_list[key].revenue * potion_margin);
 	}
+	
+	return potion_list;
+}
 
-	for x from 1 to 10											// Replace embezzler encounters from copiers
+void print_buff_rev(buff_deets [item] potion_list)
+{
+	int total_profit = 0;
+	string color_txt = "blue";
+	
+	foreach key in potion_list
 	{
-		bm_embezzFarm_encList[x].encounter = "embezzler";
-		bm_embezzFarm_encList[x].meat_drop = 1000;
-	}
-
-	bm_embezzFarm_encList[16].encounter = "embezzler";			// Replace embezzler from LOV boomerang
-	bm_embezzFarm_encList[16].meat_drop = 1000;
-
-	for x from 18 to 34 by 8
-	{
-		bm_embezzFarm_encList[x].encounter = "embezzler";		// Replace embezzlers from digitizing
-		bm_embezzFarm_encList[x].meat_drop = 1000;
-	}
-
-	bm_embezzFarm_encList[54].encounter = "embezzler";			// Replace residual embezzler from digitizing
-	bm_embezzFarm_encList[54].meat_drop = 1000;
-
-	for x from 20 to 60 by 20
-	{
-		bm_embezzFarm_encList[x].encounter = "embezzler";		// Replace embezzlers from reanimation
-		bm_embezzFarm_encList[x].meat_drop = 1000;
-	}
-
-	int roller_timer = 26;
-	for x from 19 to 60											// Based on my simulations the rollercoaster adventure happens every ~26 adventures.  bm_embezzFarm_encList[19] is the 104th adventure at barf mountain.
-	{
-		if(roller_timer < 25)
-			roller_timer += 1;
-		else if(bm_embezzFarm_encList[x].encounter != "embezzler")
+		if(potion_list[key].mall_price > potion_list[key].max_price)
+			color_txt = "red";
+		else
 		{
-			bm_embezzFarm_encList[x].encounter = "roller coaster";		// Replace with rollercoaster
-			bm_embezzFarm_encList[x].meat_drop = 0;
-			roller_timer = 0;
+			total_profit += potion_list[key].revenue - potion_list[key].mall_price;
+			color_txt = "blue";
 		}
+		
+		print(key + " pct:" + potion_list[key].buff_pct + " dur:" + potion_list[key].duration + " rev:" + potion_list[key].revenue + " mall:" + potion_list[key].mall_price + " max:" + potion_list[key].max_price, color_txt);	
 	}
-
-	foreach key in bm_embezzFarm_encList
-	{
-		print(key + " " + bm_embezzFarm_encList[key].encounter + " " + bm_embezzFarm_encList[key].meat_drop, "blue");
-	}
-
-	int IntegralBaseDrop_bmEmbezzler(int duration)
-	{
-		int total_drop = 0;
-		for x from 1 to duration
-		{
-			total_drop += bm_embezzFarm_encList[x].meat_drop;
-		}
-		return total_drop;
-	}
-
-	int potion_dur = 35;
-	print(IntegralBaseDrop_bmEmbezzler(potion_dur)+ " " + potion_dur, "blue");
-*/
+	print("Total profit will be: " + total_profit, "blue");
+}
