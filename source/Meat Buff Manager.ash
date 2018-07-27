@@ -78,18 +78,19 @@ int total_base_meatDrop(int rounds)
 	return sum;		
 }
 
-record buff_deets{
+record potion_deets{
 	int buff_pct;
 	int duration;
 	int revenue;
 	int mall_price;
 	int max_price;
+	boolean will_use;
 };
 
-buff_deets [item] build_meatbuff_info()
+potion_deets [item] build_mallMeatPotion_list()
 {
 	float potion_margin = 0.85;
-	buff_deets [item] potion_list;
+	potion_deets [item] potion_list;
 	file_to_map("/kol-meatfarm-dinsey/data/meat potions mall avail.txt", potion_list);
 	
 	foreach key in potion_list
@@ -97,19 +98,20 @@ buff_deets [item] build_meatbuff_info()
 		potion_list[key].mall_price = mall_price(key);
 		potion_list[key].revenue = total_base_meatDrop(potion_list[key].duration) * potion_list[key].buff_pct / 100;
 		potion_list[key].max_price = to_int(potion_list[key].revenue * potion_margin);
+		potion_list[key].will_use = potion_list[key].mall_price <= potion_list[key].max_price;
 	}
 	
 	return potion_list;
 }
 
-void print_buff_rev(buff_deets [item] potion_list)
+void print_potion_info(potion_deets [item] potion_list)
 {
 	int total_profit = 0;
 	string color_txt = "blue";
 	
 	foreach key in potion_list
 	{
-		if(potion_list[key].mall_price > potion_list[key].max_price)
+		if(!potion_list[key].will_use)
 			color_txt = "red";
 		else
 		{
@@ -120,4 +122,23 @@ void print_buff_rev(buff_deets [item] potion_list)
 		print(key + " pct:" + potion_list[key].buff_pct + " dur:" + potion_list[key].duration + " rev:" + potion_list[key].revenue + " mall:" + potion_list[key].mall_price + " max:" + potion_list[key].max_price, color_txt);	
 	}
 	print("Total profit will be: " + total_profit, "blue");
+}
+
+void use_mallMeatPotions()
+{
+	if(get_property("_meatPotionsUsed").to_boolean())
+		print("Mall meat potions already used today", "blue");
+	else
+	{
+		set_property("_meatPotionsUsed", "true");
+		potion_deets [item] meat_potions = build_mallMeatPotion_list();
+		print_potion_info(meat_potions);
+		foreach key in meat_potions
+			if(meat_potions[key].will_use)
+			{
+				if(item_amount(key) == 0)
+					cli_execute("mallbuy " + key + " @ " + meat_potions[key].max_price);
+				use(1, key);
+			}
+	}	
 }
