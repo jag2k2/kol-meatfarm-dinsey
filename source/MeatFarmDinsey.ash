@@ -130,17 +130,69 @@ void meatFarm_base_potions(int target)
 	equip($slot[pants], old_pants);
 }
 
-/*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
-void use_GreenSpan()
+/* Use Cast Sweet Synthesis */
+void sweet_synthesis(int num_casts)
 {
-	int max_ugbfg_price = 40000;
-	if(property_exists("_UncleGreenspanUsed"))
-		print("Uncle Greenspan Bathroom Finance Guide already used today", "blue");
-	else if (mall_price($item[Uncle Greenspan's Bathroom Finance Guide]) <= max_ugbfg_price)
+	int complex_max = 10000;
+	item crimbo_companion;
+	int to_buy = 0;
+	int to_make = 0;
+	string [int] synth_commands;
+	
+	item [3] crimbo_candy;
+	crimbo_candy[0] = $item[Crimbo candied pecan];
+	crimbo_candy[1] = $item[Crimbo fudge];
+	crimbo_candy[2] = $item[Crimbo peppermint bark];
+
+	if((spleen_limit() - my_spleen_use() - num_casts) < 0)
 	{
-		retrieve_item(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
-		use(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
-		set_property("_UncleGreenspanUsed", "true");
+		print("Not enough room in spleen for " + num_casts + " Sweet Synthesis casts.  Coercing down to " + (spleen_limit() - my_spleen_use()), "blue");
+		num_casts = spleen_limit() - my_spleen_use();
+	}
+	
+	if(num_casts > 0)
+	{
+		int each_crimbosNeeded = to_int(ceil(num_casts / 3.0));									// Trying to use all 3 complex crimbo candies evenly.  Ingredients will be bought/made in intervals of 3 so some extras are possible.
+		int sheets_needed = 3*each_crimbosNeeded;												// The second complex candy will be some form of sugar sheet depending on which crimbo candy was used
+		
+		to_buy = sheets_needed - item_amount($item[sugar sheet]);								
+		print("Need " + sheets_needed + " Sugar Sheets. Have to buy " + to_buy, "blue");
+		if(to_buy > 0)
+			for x from 1 upto to_buy
+				cli_execute("mall buy sugar sheet @ " + complex_max);							// Buy any sugar sheets that you don't have
+
+		
+		foreach key in crimbo_candy																// For each crimbo candy..
+		{
+			switch(crimbo_candy[key])															// Define the second complex candy
+			{
+				case $item[Crimbo candied pecan]:
+					crimbo_companion = $item[sugar shank];
+					break;
+				case $item[Crimbo fudge]:
+					crimbo_companion = $item[sugar shirt];
+					break;
+				case $item[Crimbo peppermint bark]:
+					crimbo_companion = $item[sugar shorts];
+					break;
+			}
+
+			to_buy = each_crimbosNeeded - item_amount(crimbo_candy[key]);						// Find out how many of the crimbo candies need to be bought from mall
+			to_make = each_crimbosNeeded - item_amount(crimbo_companion);						// Find out how many of the second candies need to be folded from a sugar sheet
+			
+			print("Need " + each_crimbosNeeded + " " + crimbo_companion + ", have to make " + to_make + ". Need " + each_crimbosNeeded + " " + crimbo_candy[key] + ", have to buy " + to_buy, "blue");
+														
+			if(to_buy > 0)
+				for x from 1 upto to_buy
+					cli_execute("mallbuy " + crimbo_candy[key] + " @ " + complex_max);			// Buy crimbo candies if needed
+			create(to_make, crimbo_companion);													// Fold sugar sheets if needed
+			
+			for x from 1 to each_crimbosNeeded													// Build up a list of cli commands.  The size of this map could be bigger than "num_casts" since ingredients are made in intervals of 3
+				synth_commands[count(synth_commands)] = "synthesize " + crimbo_candy[key] + ", " + crimbo_companion;
+		}
+		
+		for x from 0 to (num_casts-1)
+			cli_execute(synth_commands[x]);														// Go through the queue of commands and Cast Sweet Synthesis
 	}
 }
 
