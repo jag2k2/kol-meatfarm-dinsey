@@ -130,17 +130,69 @@ void meatFarm_base_potions(int target)
 	equip($slot[pants], old_pants);
 }
 
-/*Use Uncle Greenspan Bathroom Finance Guide and adventure until there are 5 effects left*/
-void use_GreenSpan()
+/* Use Cast Sweet Synthesis */
+void sweet_synthesis(int num_casts)
 {
-	int max_ugbfg_price = 40000;
-	if(property_exists("_UncleGreenspanUsed"))
-		print("Uncle Greenspan Bathroom Finance Guide already used today", "blue");
-	else if (mall_price($item[Uncle Greenspan's Bathroom Finance Guide]) <= max_ugbfg_price)
+	int complex_max = 10000;
+	item crimbo_companion;
+	int to_buy = 0;
+	int to_make = 0;
+	string [int] synth_commands;
+	
+	item [3] crimbo_candy;
+	crimbo_candy[0] = $item[Crimbo candied pecan];
+	crimbo_candy[1] = $item[Crimbo fudge];
+	crimbo_candy[2] = $item[Crimbo peppermint bark];
+
+	if((spleen_limit() - my_spleen_use() - num_casts) < 0)
 	{
-		retrieve_item(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
-		use(1, $item[Uncle Greenspan's Bathroom Finance Guide]);
-		set_property("_UncleGreenspanUsed", "true");
+		print("Not enough room in spleen for " + num_casts + " Sweet Synthesis casts.  Coercing down to " + (spleen_limit() - my_spleen_use()), "blue");
+		num_casts = spleen_limit() - my_spleen_use();
+	}
+	
+	if(num_casts > 0)
+	{
+		int each_crimbosNeeded = to_int(ceil(num_casts / 3.0));
+		int sheets_needed = 3*each_crimbosNeeded;
+		
+		to_buy = sheets_needed - item_amount($item[sugar sheet]);
+		print("Need " + sheets_needed + " Sugar Sheets. Have to buy " + to_buy, "blue");
+		if(to_buy > 0)
+			for x from 1 upto to_buy
+				cli_execute("mall buy sugar sheet @ " + complex_max);
+
+		
+		foreach key in crimbo_candy
+		{
+			switch(crimbo_candy[key])
+			{
+				case $item[Crimbo candied pecan]:
+					crimbo_companion = $item[sugar shank];
+					break;
+				case $item[Crimbo fudge]:
+					crimbo_companion = $item[sugar shirt];
+					break;
+				case $item[Crimbo peppermint bark]:
+					crimbo_companion = $item[sugar shorts];
+					break;
+			}
+
+			to_buy = each_crimbosNeeded - item_amount(crimbo_candy[key]);			
+			to_make = each_crimbosNeeded - item_amount(crimbo_companion);
+			
+			print("Need " + each_crimbosNeeded + " " + crimbo_companion + ", have to make " + to_make + ". Need " + each_crimbosNeeded + " " + crimbo_candy[key] + ", have to buy " + to_buy, "blue");
+			create(to_make, crimbo_companion);
+			
+			if(to_buy > 0)
+				for x from 1 upto to_buy
+					cli_execute("mallbuy " + crimbo_candy[key] + " @ " + complex_max);
+			
+			for x from 1 to each_crimbosNeeded
+				synth_commands[count(synth_commands)] = "synthesize " + crimbo_candy[key] + ", " + crimbo_companion;
+		}
+		
+		for x from 0 to (num_casts-1)
+			cli_execute(synth_commands[x]);
 	}
 }
 
