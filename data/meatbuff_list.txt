@@ -1,0 +1,21 @@
+Mick's IcyVapoHotness Inhaler	200	15	0
+frost flower	200	55	0
+Polka Pop	55	15	0
+Dog Ointment	51	25	0
+patent avarice tonic	50	35	0
+Gene Tonic: Constellation	50	35	0
+Meat-Inflating Powder	50	25	0
+Airborne Mutagen	50	25	0
+peppermint twist	50	15	0
+red snowcone	50	25	0
+Resolution: Be Wealthier	30	25	0
+pink-frosted astral cupcake	30	25	0
+begpwnia	30	15	0
+Resolution: Be Kinder	26	25	0
+Friendliness Beverage	26	25	0	
+salt wages	25	35	0
+bag of Cheat-Os	20	15	0
+Blackberry Polite	20	10	0
+pink candy heart	20	15	0
+Cranberry Cordial	10	10	0
+Baggie of Powdered Sugar	10	10	0
