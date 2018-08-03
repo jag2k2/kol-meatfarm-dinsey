@@ -243,6 +243,58 @@ void outfit_manager(string attire)
 			
 			break;
 		
+		case "Item Drop":
+			hat_list[0] = $item[bounty-hunting helmet];
+			
+			back_list[0] = $item[protonic accelerator pack];
+			
+			shirt_list[0] = $item[flaming pink shirt];
+			
+			weapon_list[0] = $item[Spelunker's whip];
+			
+			offhand_list[0] = $item[hypnodisk];
+			
+			pants_list[0] = $item[bounty-hunting pants];
+			
+			acc1_list[0] = $item[Mayor Ghost's sash];
+			acc1_list[1] = $item[Mr. Cheeng's spectacles];
+			
+			acc2_list[0] = $item[Mr. Accessory Jr.];
+			
+			acc3_list[0] = $item[Mr. Accessory Jr.];
+			
+			to_fam = $familiar[Pair of Stomping Boots];
+			famEquip_list[0] = $item[Snow Suit];
+			
+			break;
+		
+		case "Elem Res":
+			hat_list[0] = $item[orange peel hat];
+			
+			back_list[0] = $item[Buddy Bjorn];
+			to_bjorn = $familiar[Twitching Space Critter];
+			
+			shirt_list[0] = $item[Hodgman's disgusting technicolor overcoat];
+			shirt_list[1] = $item[gnauga hide vest];
+			
+			weapon_list[0] = $item[titanium assault umbrella];
+			
+			offhand_list[0] = $item[Dallas Dynasty Falcon Crest shield];
+			
+			pants_list[0] = $item[Pantsgiving];
+			
+			acc1_list[0] = $item[Pocket Square of Loathing];
+			acc1_list[1] = $item[ghost of a necklace];
+			
+			acc2_list[0] = $item[over-the-shoulder Folder Holder];
+			
+			acc3_list[0] = $item[perfume-soaked bandana];
+			
+			to_fam = $familiar[Trick-or-Treating Tot];
+			famEquip_list[0] = $item[li'l candy corn costume];
+			
+			break;
+		
 		case "PJs":
 			hat_list[0] = $item[leather aviator's cap];
 			
