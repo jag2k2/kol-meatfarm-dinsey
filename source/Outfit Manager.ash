@@ -1,3 +1,20 @@
+/* Remove all stinky cheese equipment */
+void remove_stinkyCheese()
+{
+	if(equipped_item($slot[pants]) == $item[stinky cheese diaper])
+		equip($slot[pants], $item[none]);
+	if(equipped_item($slot[weapon]) == $item[stinky cheese sword] || equipped_item($slot[weapon]) == $item[Staff of Queso Escusado])
+		equip($slot[weapon], $item[none]);
+	if(equipped_item($slot[off-hand]) == $item[stinky cheese wheel])
+		equip($slot[off-hand], $item[none]);
+	if(equipped_item($slot[acc1]) == $item[stinky cheese eye])
+		equip($slot[acc1], $item[none]);
+	if(equipped_item($slot[acc2]) == $item[stinky cheese eye])
+		equip($slot[acc2], $item[none]);
+	if(equipped_item($slot[acc3]) == $item[stinky cheese eye])
+		equip($slot[acc3], $item[none]);
+}
+
 /* Manage outfits based on class and level */
 void outfit_manager(string attire)
 {
@@ -6,6 +23,8 @@ void outfit_manager(string attire)
 		foreach key in equip_list
 			if(can_equip(equip_list[key]))
 			{
+				if(equip_list[key] == $item[stinky cheese sword] || equip_list[key] == $item[stinky cheese wheel] || equip_list[key] == $item[stinky cheese diaper] || equip_list[key] == $item[stinky cheese eye] || equip_list[key] == $item[Staff of Queso Escusado])
+					cli_execute("fold " + equip_list[key]);
 				if(item_amount(equip_list[key]) == 0 && equipped_amount(equip_list[key]) == 0)
 					print("Do not have " + equip_list[key], "red");
 				else
@@ -213,19 +232,20 @@ void outfit_manager(string attire)
 			break;
 			
 		case "Free Fight":
+			remove_stinkyCheese();
+		
 			hat_list[0] = $item[Crown of Thrones];
 			to_enthrone = $familiar[BRICKO chick];
 			
 			back_list[0] = $item[Buddy Bjorn];
 			to_bjorn = $familiar[Warbear Drone];
 			
-			shirt_list[0] = $item[Sneaky Pete's leather jacket];
+			shirt_list[0] = $item[sea salt scrubs];
+			shirt_list[1] = $item[Sneaky Pete's leather jacket];
 			
-			weapon_list[0] = $item[Hodgman's whackin' stick];
-			weapon_list[1] = $item[Stick-Knife of Loathing];
-			weapon_list[2] = $item[Thor's Pliers];
+			weapon_list[0] = $item[stinky cheese sword];
 				
-			offhand_list[0] = $item[KoL Con 13 snowglobe];
+			offhand_list[0] = $item[stinky cheese wheel];
 			
 			pants_list[0] = $item[Pantsgiving];
 			
@@ -233,9 +253,6 @@ void outfit_manager(string attire)
 			
 			acc2_list[0] = $item[Mr. Cheeng's spectacles];
 					
-			if(item_amount($item[stinky cheese eye]) == 0 && equipped_amount($item[stinky cheese eye]) == 0)
-				cli_execute("fold stinky cheese eye");
-				
 			acc3_list[0] = $item[stinky cheese eye];
 		
 			to_fam = $familiar[Golden Monkey];
@@ -296,6 +313,8 @@ void outfit_manager(string attire)
 			break;
 		
 		case "PJs":
+			remove_stinkyCheese();
+			
 			hat_list[0] = $item[leather aviator's cap];
 			
 			back_list[0] = $item[octolus-skin cloak];
@@ -306,8 +325,9 @@ void outfit_manager(string attire)
 			
 			offhand_list[0] = $item[blue LavaCo Lamp&trade;];
 			
-			pants_list[0] = $item[Pantaloons of Hatred];
-			pants_list[1] = $item[paperclip pants];
+			pants_list[0] = $item[stinky cheese diaper];
+			pants_list[1] = $item[Pantaloons of Hatred];
+			pants_list[2] = $item[paperclip pants];
 			
 			acc1_list[0] = $item[fudgecycle];
 			acc1_list[1] = $item[numberwang];
