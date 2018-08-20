@@ -1,3 +1,24 @@
+
+void open_dispensary()
+{
+	if(my_ascensions() > get_property("lastDispensaryOpen").to_int())
+	{
+		print("Need to open the Dispensary", "blue");
+		outfit("Knob Goblin Elite Guard Uniform");
+		adv1($location[Cobb's Knob Barracks], -1, "");
+	}
+	else
+		print("Dispensary open", "blue");
+}
+
+void educate_digitize()
+{
+	if(get_property("sourceTerminalEducate1") == "digitize.edu" || get_property("sourceTerminalEducate2") == "digitize.edu")
+		print("Digitize is already loaded into Source Terminal", "blue");
+	else
+		cli_execute("terminal educate digitize.edu");
+}
+
 void check_OnTheTrail()
 {
 	if(have_effect($effect[On the Trail]) == 0)
@@ -97,6 +118,8 @@ void self_buff_meat_effects(int target)
 /*Use base potions for meat farming*/
 void meatFarm_base_potions(int target)
 {		
+	open_dispensary();
+	
 	record item_deets
 	{
 		item name;
