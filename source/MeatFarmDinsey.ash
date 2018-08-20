@@ -280,13 +280,10 @@ void once_daily_meatBuffs()
 		use(1, $item[Defective Game Grid Token]);
 	
 	/* Mad Hatter Buff */
-	if(property_exists("_hatterBuff"))
+	if(get_property("_madTeaParty").to_boolean() == true)
 		print("Already received today's mad hatter buff", "blue");
 	else
-	{
 		cli_execute("hatter filthy knitted dread sack");
-		set_property("_hatterBuff", "true");
-	}
 	
 	/* Clan Pool Table Buff */
 	if(get_property("_poolGames").to_int() >= 3)
