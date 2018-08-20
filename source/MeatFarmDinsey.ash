@@ -58,6 +58,15 @@ void booze_robortender()
 	}
 }
 
+/* Set Boombox */
+void boomBox_meat()
+{
+	if(get_property("boomBoxSong") == "Total Eclipse of Your Meat")
+		print("Boombox already set for meat buff", "blue");
+	else
+		cli_execute("boombox meat");
+}
+
 /*Create copiers if needed*/
 void meatFarm_create_copiers()
 {
