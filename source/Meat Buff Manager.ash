@@ -225,7 +225,10 @@ void use_recipeBasedMeatBuffs()
 							to_buy = 1 - item_amount($item[scroll of ancient forbidden unspeakable evil]);
 							if(to_buy > 0)
 								cli_execute("mallbuy scroll of ancient forbidden unspeakable evil @ " + 1.1*mall_price($item[scroll of ancient forbidden unspeakable evil]));
-							cli_execute("summon Preternatural Greed");
+							if(get_property("questL11Manor") != "finished")
+								print("Demon summoning chamber is not available", "blue");
+							else
+								cli_execute("summon Preternatural Greed");
 						}
 						break;
 					case $effect[Eyes Wide Propped]:
