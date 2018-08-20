@@ -315,12 +315,6 @@ void once_daily_meatBuffs()
 	
 	/* Have a ChibiChat */
 	use_ChibiChat();
-	
-	/* Summon Greed Demon
-	if(get_property("demonSummoned").to_boolean())
-		print("Already summoned demon today", "blue");
-	else
-		cli_execute("summon Riptar Zielgam"); */
 }
 
 /* Farm Embezzlers using all available copies */
