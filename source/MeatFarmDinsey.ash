@@ -363,4 +363,44 @@ void farm_emezzler_copies()
 		use(1, $item[ice sculpture]);
 }
 
+buffer bm_macro;
+string mac_pick = "pickpocket;";
+string mac_dig = "if monstername Knob Goblin Embezzler && hasskill digitize; skill digitize; endif;";
+string mac_wink = "if monstername Knob Goblin Embezzler && hasskill wink at; skill wink at; endif;";
+string mac_macromet = "if monstername horrible tourist family && hasskill macrometeorite; skill macrometeorite; endif;";
+string mac_olfac = "if monstername garbage tourist && !haseffect on the trail; skill transcendent olfaction; endif;"; 
+string mac_crit = "if sealclubber; skill furious wallop; endif; if hasskill Summer Siesta; skill Summer Siesta; endif;";
+string mac_atk = "attack; repeat;";
+
+bm_macro = append(bm_macro, mac_pick);
+bm_macro = append(bm_macro, mac_macromet);
+bm_macro = append(bm_macro, mac_olfac);
+bm_macro = append(bm_macro, mac_crit);
+bm_macro = append(bm_macro, mac_atk);
+
+void farm_barf_mountain(int adv)
+{
+	for x from 1 to adv
+	{
+		if((reverse_numberology(0,0) contains 69) && get_property("_universeCalculated").to_int() < 3)
+			cli_execute("numberology 69");
+								
+		if(get_counters("digitize",0,0) == "Digitize Monster" && get_property("_sourceTerminalDigitizeUses").to_int() < 3 && get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5)
+			bm_macro = insert(bm_macro, 11, mac_dig);
+					
+		if(get_counters("enamorang",0,0)=="Enamorang Monster" && get_property("_badlyRomanticArrows").to_int() == 0)					// Switch to Reanimator (so the combat macro will wink at) when enamorang is about to expire
+		{
+			bm_macro = insert(bm_macro, 11, mac_wink);
+			use_familiar($familiar[Reanimated Reanimator]);						
+			if(familiar_equipment(my_familiar()) != $item[lucky Tam O'Shanter])	
+				equip($slot[familiar], $item[lucky Tam O'Shanter]);
+		}
+		
+		adventure(1 , $location[Barf Mountain], bm_macro);
+					
+		if(my_familiar()!= $familiar[robortender])
+			use_familiar($familiar[robortender]);								//  If robortender was switched out for reanimation (or any other reaseon), switch back
+		print("Finished " + x + " of " + adv, "blue");
+	}
+}
 
