@@ -215,10 +215,14 @@ void outfit_manager(string attire)
 			shirt_list[1] = $item[white hat hacker T-shirt];
 			
 			weapon_list[0] = $item[Hodgman's whackin' stick];
+			weapon_list[1] = $item[Sword of Dark Omens];
 			
 			offhand_list[0] = $item[Hodgman's whackin' stick];
+			offhand_list[1] = $item[VYKEA hex key];
 			
 			pants_list[0] = $item[Jeans of Loathing];
+			pants_list[1] = $item[sugar shorts];
+			pants_list[2] = $item[Greatest American Pants];
 				
 			acc1_list[0] = $item[Garland of Greatness];
 			
@@ -228,6 +232,7 @@ void outfit_manager(string attire)
 			
 			to_fam = $familiar[Disembodied Hand];
 			famEquip_list[0] = $item[Hodgman's whackin' stick];
+			famEquip_list[1] = $item[VYKEA hex key];
 			
 			break;
 			
@@ -235,7 +240,7 @@ void outfit_manager(string attire)
 			remove_stinkyCheese();
 		
 			hat_list[0] = $item[Crown of Thrones];
-			to_enthrone = $familiar[BRICKO chick];
+			to_enthrone = $familiar[Garbage Fire];
 			
 			back_list[0] = $item[Buddy Bjorn];
 			to_bjorn = $familiar[Warbear Drone];
