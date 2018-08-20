@@ -32,8 +32,8 @@ void check_OnTheTrail()
 void dress_robortender()
 {
 	use_familiar($familiar[robortender]);
-	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam(Robortender)]"))
-		print("Robortender already has meat farming mummery costume", "blue");
+	if(get_property("_mummeryMods").contains_text("Meat Drop\: [30*fam"))
+		print("Someboady already has meat farming mummery costume", "blue");
 	else
 		cli_execute("mummery meat");
 }
