@@ -354,6 +354,42 @@ void farm_emezzler_copies()
 		use(1, $item[ice sculpture]);
 }
 
+/* Board Haunted Doghouse */
+void board_doghouse()
+{
+	if(get_property("doghouseBoarded") == "false")
+	{
+		string doghouse_page = visit_url("campground.php?action=doghouse");
+		
+		int choice_index = doghouse_page.index_of("value=\"Board up the doghouse") - 35;  	
+		if(choice_index < 0)
+			print("Could not find choice to board up the doghouse", "blue");
+		else
+		{
+			print("Boarding up Haunted Doghouse", "blue");
+			run_choice(doghouse_page.char_at(choice_index).to_int());
+		}
+	}
+}
+
+/* Open Haunted Doghouse */
+void open_doghouse()
+{
+	if(get_property("doghouseBoarded") == "true")
+	{
+		string doghouse_page = visit_url("campground.php?action=doghouse");
+		
+		int choice_index = doghouse_page.index_of("value=\"Pry the boards") - 35;  	
+		if(choice_index < 0)
+			print("Could not find choice to open the doghouse", "blue");
+		else
+		{
+			print("Opening Haunted Doghouse", "blue");
+			run_choice(doghouse_page.char_at(choice_index).to_int());
+		}
+	}
+}
+
 buffer bm_macro;
 string mac_pick = "pickpocket;";
 string mac_dig = "if monstername Knob Goblin Embezzler && hasskill digitize; skill digitize; endif;";
