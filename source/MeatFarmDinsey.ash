@@ -11,6 +11,28 @@ void open_dispensary()
 		print("Dispensary open", "blue");
 }
 
+void set_digFreq()
+{
+	int adv = my_adventures();
+	int freq;
+	if(adv < 56)
+		freq = 1;			// reset after 7 adv
+	else if(adv < 142)
+		freq = 2;			// reset after 27 adv
+	else if(adv < 252)
+		freq = 3;			// reset after 57 adv
+	else if(adv < 392)
+		freq = 4;			// reset after 97 adv
+	else if(adv < 562)
+		freq = 5;			// reset after 147 adv
+	else if(adv < 762)
+		freq = 6;			// reset after 207 adv
+	else
+		freq = 7;			// reset after 277 adv
+	print("Based on " + adv + " adventres, setting digitize frequency to " + freq, "blue");
+	set_property("_bm_digFreq", freq);
+}
+
 void educate_digitize()
 {
 	if(get_property("sourceTerminalEducate1") == "digitize.edu" || get_property("sourceTerminalEducate2") == "digitize.edu")
