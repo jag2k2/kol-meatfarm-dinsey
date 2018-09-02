@@ -412,6 +412,22 @@ void open_doghouse()
 	}
 }
 
+void meat_farm_prep()
+{	
+	cli_execute("ccs default");
+	set_auto_attack(0);	
+	boomBox_meat();
+	educate_digitize();
+	set_digFreq();
+	generate_amulet_coin();
+	meatFarm_create_copiers();
+	get_dark_horse();
+	kbg_briefcase_buff();
+	check_OnTheTrail();
+	dress_robortender();
+	booze_robortender();
+}
+
 buffer bm_macro;
 string mac_pick = "pickpocket;";
 string mac_dig = "if monstername Knob Goblin Embezzler && hasskill digitize; skill digitize; endif;";
