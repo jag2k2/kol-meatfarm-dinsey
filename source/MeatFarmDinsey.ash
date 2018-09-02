@@ -407,14 +407,19 @@ bm_macro = append(bm_macro, mac_atk);
 
 void farm_barf_mountain(int adv)
 {
+	int embez_count = 0;
 	for x from 1 to adv
 	{
 		if((reverse_numberology(0,0) contains 69) && get_property("_universeCalculated").to_int() < 3)
 			cli_execute("numberology 69");
 								
-		if(get_counters("digitize",0,0) == "Digitize Monster" && get_property("_sourceTerminalDigitizeUses").to_int() < 3 && get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= 5)
-			bm_macro = insert(bm_macro, 11, mac_dig);
-					
+		if(get_counters("digitize",0,0) == "Digitize Monster") 
+		{
+			embez_count++;
+			board_doghouse();
+			if(get_property("_sourceTerminalDigitizeUses").to_int() < 3 && get_property("_sourceTerminalDigitizeMonsterCount").to_int() >= get_property("_bm_digFreq").to_int())
+				bm_macro = insert(bm_macro, 11, mac_dig);
+		}			
 		if(get_counters("enamorang",0,0)=="Enamorang Monster" && get_property("_badlyRomanticArrows").to_int() == 0)					// Switch to Reanimator (so the combat macro will wink at) when enamorang is about to expire
 		{
 			bm_macro = insert(bm_macro, 11, mac_wink);
@@ -426,8 +431,10 @@ void farm_barf_mountain(int adv)
 		adventure(1 , $location[Barf Mountain], bm_macro);
 					
 		if(my_familiar()!= $familiar[robortender])
-			use_familiar($familiar[robortender]);								//  If robortender was switched out for reanimation (or any other reaseon), switch back
+			use_familiar($familiar[robortender]);			//  If robortender was switched out for reanimation (or any other reaseon), switch back
+		open_doghouse();
 		print("Finished " + x + " of " + adv, "blue");
+		print("Embezzler count:" + embez_count, "blue");
 	}
 }
 
