@@ -261,7 +261,7 @@ void outfit_manager(string attire)
 			acc3_list[0] = $item[stinky cheese eye];
 		
 			to_fam = $familiar[Golden Monkey];
-			famEquip_list[0] = $item[golden banana];
+			famEquip_list[0] = $item[Mayflower bouquet];
 			
 			break;
 		
