@@ -156,7 +156,7 @@ void meatFarm_base_potions(int target)
 		{
 			int potions_to_take = ceil((target - have_effect(effect_modifier(base_potion[int_index].name, "effect")))/base_potion[int_index].duration);
 			print(base_potion[int_index].name + ": Target " + target + " adv. Cost: " + potions_to_take + " potions needed.", "blue");
-			//retrieve_item(potions_to_take, base_potion[int_index].name);
+			//retrieve_item(potions_to_take, base_potion[int_index].name);    // todo: change this to a smart mallbuy
 			use(potions_to_take, base_potion[int_index].name);
 		}
 	}
