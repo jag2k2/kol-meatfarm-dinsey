@@ -1,16 +1,3 @@
-
-void open_dispensary()
-{
-	if(my_ascensions() > get_property("lastDispensaryOpen").to_int())
-	{
-		print("Need to open the Dispensary", "blue");
-		outfit("Knob Goblin Elite Guard Uniform");
-		adv1($location[Cobb's Knob Barracks], -1, "");
-	}
-	else
-		print("Dispensary open", "blue");
-}
-
 void set_digFreq()
 {
 	int adv = my_adventures();
@@ -149,8 +136,6 @@ void self_buff_meat_effects(int target)
 /*Use base potions for meat farming*/
 void meatFarm_base_potions(int target)
 {		
-	open_dispensary();
-	
 	record item_deets
 	{
 		item name;
@@ -158,17 +143,11 @@ void meatFarm_base_potions(int target)
 	};
 	
 	item_deets [int]base_potion;
-	base_potion[1].name = $item[Knob Goblin pet-buffing spray];
-	base_potion[1].duration = 10.0;
-	base_potion[2].name = $item[Knob Goblin nasal spray];
-	base_potion[2].duration = 10.0;
-	base_potion[3].name = $item[Flaskfull of Hollow];
-	base_potion[3].duration = 150.0;
-	base_potion[4].name = $item[How to Avoid Scams];
-	base_potion[4].duration = 20.0;
+	base_potion[1].name = $item[Flaskfull of Hollow];
+	base_potion[1].duration = 150.0;
+	base_potion[2].name = $item[How to Avoid Scams];
+	base_potion[2].duration = 20.0;
 	
-	item old_pants = equipped_item($slot[pants]);
-	equip($item[Travoltan trousers]);
 	foreach int_index in base_potion
 	{
 		if(have_effect(effect_modifier(base_potion[int_index].name, "effect")) >= target)
@@ -177,11 +156,10 @@ void meatFarm_base_potions(int target)
 		{
 			int potions_to_take = ceil((target - have_effect(effect_modifier(base_potion[int_index].name, "effect")))/base_potion[int_index].duration);
 			print(base_potion[int_index].name + ": Target " + target + " adv. Cost: " + potions_to_take + " potions needed.", "blue");
-			retrieve_item(potions_to_take, base_potion[int_index].name);
+			//retrieve_item(potions_to_take, base_potion[int_index].name);
 			use(potions_to_take, base_potion[int_index].name);
 		}
 	}
-	equip($slot[pants], old_pants);
 }
 
 /* Use Cast Sweet Synthesis */
