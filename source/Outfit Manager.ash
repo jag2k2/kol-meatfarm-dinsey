@@ -322,7 +322,7 @@ void outfit_manager(string attire)
 			
 			hat_list[0] = $item[leather aviator's cap];
 			
-			back_list[0] = $item[octolus-skin cloak];
+			back_list[0] = $item[vampyric cloake];
 			
 			shirt_list[0] = $item[Sneaky Pete's leather jacket];
 			
@@ -334,8 +334,9 @@ void outfit_manager(string attire)
 			pants_list[1] = $item[Pantaloons of Hatred];
 			pants_list[2] = $item[paperclip pants];
 			
-			acc1_list[0] = $item[fudgecycle];
-			acc1_list[1] = $item[numberwang];
+			acc1_list[0] = $item[Draftsman's driving gloves];
+			acc1_list[1] = $item[fudgecycle];
+			acc1_list[2] = $item[numberwang];
 			
 			acc2_list[0] = $item[Treads of Loathing];
 			acc2_list[1] = $item[Boots of Twilight Whispers];
