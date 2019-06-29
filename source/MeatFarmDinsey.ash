@@ -76,6 +76,67 @@ void boomBox_meat()
 		cli_execute("boombox meat");
 }
 
+/* Bastille Buff */
+void bastille_buff()
+{
+	if(get_property("_bastilleGames").to_int() < 0)
+		print("Bastille already used today", "blue");
+	else
+	{
+		string barb = "";
+		string moat = "moat3";
+		string bridge = "bridge2";
+		string holes = "holes3";
+		switch(my_primestat())
+		{
+			case $stat[muscle]:
+				print("Tuning Bastille Battalion to Muscle", "blue");
+				barb = "barb2";
+				break;
+			case $stat[mysticality]:
+				print("Tuning Bastille Battalion to Mysticality", "blue");
+				barb = "barb1";
+				break;
+			case $stat[moxie]:
+				print("Tuning Bastille Battalion to Moxie", "blue");
+				barb = "barb3";
+				break;
+			default:
+				print("You have no class apparently", "blue");
+		}
+		string page = visit_url("inv_use.php?pwd=&whichitem=9928");
+		
+		print("Setting barb to " + barb, "blue");
+		while(page.index_of(barb)<0)
+			page = visit_url("choice.php?whichchoice=1313&option=1&pwd="+my_hash());
+			
+		print("Setting bridge to " + bridge, "blue");
+		while(page.index_of(bridge)<0)
+			page = visit_url("choice.php?whichchoice=1313&option=2&pwd="+my_hash());
+			
+		print("Setting holes to " + holes, "blue");
+		while(page.index_of(holes)<0)
+			page = visit_url("choice.php?whichchoice=1313&option=3&pwd="+my_hash());
+			
+		print("Setting moat to " + moat, "blue");
+		while(page.index_of(moat)<0)
+			page = visit_url("choice.php?whichchoice=1313&option=4&pwd="+my_hash());
+			
+		//start game
+		page = visit_url("choice.php?whichchoice=1313&option=5&pwd="+my_hash());
+		
+		while(page.index_of("value=\"Lock in your score")<0)
+		{
+			int cheese_index = page.index_of("value=\"Look for cheese")-35;
+			if(cheese_index > 0)
+				page = run_choice(page.char_at(cheese_index).to_int());
+			else
+				page = run_choice(1);
+		}
+		run_choice(1);
+	}
+}
+
 /*Create copiers if needed*/
 void meatFarm_create_copiers()
 {
@@ -400,6 +461,7 @@ void meat_farm_prep()
 	generate_amulet_coin();
 	meatFarm_create_copiers();
 	get_dark_horse();
+	bastille_buff();
 	kbg_briefcase_buff();
 	check_OnTheTrail();
 	dress_robortender();
