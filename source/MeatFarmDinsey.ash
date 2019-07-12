@@ -79,7 +79,7 @@ void boomBox_meat()
 /* Bastille Buff */
 void bastille_buff()
 {
-	if(get_property("_bastilleGames").to_int() < 0)
+	if(get_property("_bastilleGames").to_int() > 0)
 		print("Bastille already used today", "blue");
 	else
 	{
