@@ -486,9 +486,10 @@ bm_macro = append(bm_macro, mac_atk);
 void farm_barf_mountain(int adv)
 {
 	int embez_count = 0;
+	int calc_univ_lvl = get_property("skillLevel144").to_int();
 	for x from 1 to adv
 	{
-		if((reverse_numberology(0,0) contains 69) && get_property("_universeCalculated").to_int() < 3)
+		if((reverse_numberology(0,0) contains 69) && get_property("_universeCalculated").to_int() < calc_univ_lvl)
 			cli_execute("numberology 69");
 								
 		if(get_counters("digitize",0,0) == "Digitize Monster") 
